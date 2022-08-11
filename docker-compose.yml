@@ -9,9 +9,9 @@ services:
     volumes:
       - ./notary/node.conf:/etc/corda/node.conf
       - ./notary/certificates:/opt/corda/certificates
-      - ./notary/persistence:/opt/corda/persistence
-      - ./notary/logs:/opt/corda/logs
-      - ./shared/cordapps:/opt/corda/cordapps
+      - ./notary/persistence:/opt/corda/persistence:rw
+      - ./notary/logs:/opt/corda/logs:rw
+      - ./shared/cordapps:/opt/corda/cordapps:rw
       - ./shared/drivers:/opt/corda/drivers
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
@@ -25,10 +25,10 @@ services:
     volumes:
       - ./partya/node.conf:/etc/corda/node.conf
       - ./partya/certificates:/opt/corda/certificates
-      - ./partya/persistence:/opt/corda/persistence
-      - ./partya/logs:/opt/corda/logs
+      - ./partya/persistence:/opt/corda/persistence:rw
+      - ./partya/logs:/opt/corda/logs:rw
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/cordapps:/opt/corda/cordapps:rw
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
@@ -41,10 +41,10 @@ services:
     volumes:
       - ./partyb/node.conf:/etc/corda/node.conf
       - ./partyb/certificates:/opt/corda/certificates
-      - ./partyb/persistence:/opt/corda/persistence
-      - ./partyb/logs:/opt/corda/logs
+      - ./partyb/persistence:/opt/corda/persistence:rw
+      - ./partyb/logs:/opt/corda/logs:rw
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/cordapps:/opt/corda/cordapps:rw
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
@@ -57,10 +57,10 @@ services:
     volumes:
       - ./partyc/node.conf:/etc/corda/node.conf
       - ./partyc/certificates:/opt/corda/certificates
-      - ./partyc/persistence:/opt/corda/persistence
-      - ./partyc/logs:/opt/corda/logs
+      - ./partyc/persistence:/opt/corda/persistence:rw
+      - ./partyc/logs:/opt/corda/logs:rw
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/cordapps:/opt/corda/cordapps:rw
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"

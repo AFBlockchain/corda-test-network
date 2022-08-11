@@ -2,6 +2,8 @@
 
 The compose configuration will bootstrap a test corda network with 1 Notary and 3 nodes. The total four nodes share a single network map and a shared set of Cordapps. On each start up, each node will run database migration for both core and app schemas, which may slow the start up time.
 
+## Usage
+
 ## Database
 
 Currently, nodes are using H2.
