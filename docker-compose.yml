@@ -1,21 +1,33 @@
 version: '3.0'
 
 services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgrespw
+      POSTGRES_USER: postgres
+    volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
   notary:
     image: corda/community:4.9.1-zulu-openjdk8
     container_name: notary
     user: root
     ports:
+      - "10007:10001"
       - "10003:10003"
     volumes:
-      - ./notary/node.conf:/etc/corda/node.conf:rw
-      - ./notary/certificates:/opt/corda/certificates:rw
-      - ./notary/persistence:/opt/corda/persistence:rw
-      - ./notary/logs:/opt/corda/logs:rw
-      - ./shared/cordapps:/opt/corda/cordapps:rw
-      - ./shared/drivers:/opt/corda/drivers:rw
-      - ./shared/additional-node-infos:/opt/corda/additional-node-infos:rw
-      - ./shared/network-parameters:/opt/corda/network-parameters:rw
+      - ./notary/node.conf:/etc/corda/node.conf
+      - ./notary/certificates:/opt/corda/certificates
+      - ./notary/persistence:/opt/corda/persistence
+      - ./notary/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/drivers:/opt/corda/drivers
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
 
   partya:
@@ -23,14 +35,15 @@ services:
     container_name: partya
     user: root
     ports:
+      - "10008:10001"
       - "10004:10003"
     volumes:
       - ./partya/node.conf:/etc/corda/node.conf
       - ./partya/certificates:/opt/corda/certificates
-      - ./partya/persistence:/opt/corda/persistence:rw
-      - ./partya/logs:/opt/corda/logs:rw
+      - ./partya/persistence:/opt/corda/persistence
+      - ./partya/logs:/opt/corda/logs
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps:rw
+      - ./shared/cordapps:/opt/corda/cordapps
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
@@ -40,14 +53,15 @@ services:
     container_name: partyb
     user: root
     ports:
+      - "10009:10001"
       - "10005:10003"
     volumes:
       - ./partyb/node.conf:/etc/corda/node.conf
       - ./partyb/certificates:/opt/corda/certificates
-      - ./partyb/persistence:/opt/corda/persistence:rw
-      - ./partyb/logs:/opt/corda/logs:rw
+      - ./partyb/persistence:/opt/corda/persistence
+      - ./partyb/logs:/opt/corda/logs
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps:rw
+      - ./shared/cordapps:/opt/corda/cordapps
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
@@ -57,14 +71,15 @@ services:
     container_name: partyc
     user: root
     ports:
+      - "10010:10001"
       - "10006:10003"
     volumes:
       - ./partyc/node.conf:/etc/corda/node.conf
       - ./partyc/certificates:/opt/corda/certificates
-      - ./partyc/persistence:/opt/corda/persistence:rw
-      - ./partyc/logs:/opt/corda/logs:rw
+      - ./partyc/persistence:/opt/corda/persistence
+      - ./partyc/logs:/opt/corda/logs
       - ./shared/drivers:/opt/corda/drivers
-      - ./shared/cordapps:/opt/corda/cordapps:rw
+      - ./shared/cordapps:/opt/corda/cordapps
       - ./shared/additional-node-infos:/opt/corda/additional-node-infos
       - ./shared/network-parameters:/opt/corda/network-parameters
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
