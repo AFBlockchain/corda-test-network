@@ -1,0 +1,66 @@
+version: '3.0'
+
+services:
+  notary:
+    image: corda/community:4.9.1-zulu-openjdk8
+    container_name: notary
+    ports:
+      - "10003:10003"
+    volumes:
+      - ./notary/node.conf:/etc/corda/node.conf
+      - ./notary/certificates:/opt/corda/certificates
+      - ./notary/persistence:/opt/corda/persistence
+      - ./notary/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/drivers:/opt/corda/drivers
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+    command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
+
+  partya:
+    image: corda/community:4.9.1-zulu-openjdk8
+    container_name: partya
+    ports:
+      - "10004:10003"
+    volumes:
+      - ./partya/node.conf:/etc/corda/node.conf
+      - ./partya/certificates:/opt/corda/certificates
+      - ./partya/persistence:/opt/corda/persistence
+      - ./partya/logs:/opt/corda/logs
+      - ./shared/drivers:/opt/corda/drivers
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+    command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
+
+  partyb:
+    image: corda/community:4.9.1-zulu-openjdk8
+    container_name: partyb
+    ports:
+      - "10005:10003"
+    volumes:
+      - ./partyb/node.conf:/etc/corda/node.conf
+      - ./partyb/certificates:/opt/corda/certificates
+      - ./partyb/persistence:/opt/corda/persistence
+      - ./partyb/logs:/opt/corda/logs
+      - ./shared/drivers:/opt/corda/drivers
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+    command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
+  
+  partyc:
+    image: corda/community:4.9.1-zulu-openjdk8
+    container_name: partyc
+    ports:
+      - "10006:10003"
+    volumes:
+      - ./partyc/node.conf:/etc/corda/node.conf
+      - ./partyc/certificates:/opt/corda/certificates
+      - ./partyc/persistence:/opt/corda/persistence
+      - ./partyc/logs:/opt/corda/logs
+      - ./shared/drivers:/opt/corda/drivers
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+    command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
