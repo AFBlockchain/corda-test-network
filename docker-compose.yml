@@ -4,22 +4,24 @@ services:
   notary:
     image: corda/community:4.9.1-zulu-openjdk8
     container_name: notary
+    user: root
     ports:
       - "10003:10003"
     volumes:
-      - ./notary/node.conf:/etc/corda/node.conf
-      - ./notary/certificates:/opt/corda/certificates
+      - ./notary/node.conf:/etc/corda/node.conf:rw
+      - ./notary/certificates:/opt/corda/certificates:rw
       - ./notary/persistence:/opt/corda/persistence:rw
       - ./notary/logs:/opt/corda/logs:rw
       - ./shared/cordapps:/opt/corda/cordapps:rw
-      - ./shared/drivers:/opt/corda/drivers
-      - ./shared/additional-node-infos:/opt/corda/additional-node-infos
-      - ./shared/network-parameters:/opt/corda/network-parameters
+      - ./shared/drivers:/opt/corda/drivers:rw
+      - ./shared/additional-node-infos:/opt/corda/additional-node-infos:rw
+      - ./shared/network-parameters:/opt/corda/network-parameters:rw
     command: sh -c "java -jar /opt/corda/bin/corda.jar run-migration-scripts --core-schemas --app-schemas --base-directory=/opt/corda --config-file=/etc/corda/node.conf; java -jar /opt/corda/bin/corda.jar --config-file=/etc/corda/node.conf"
 
   partya:
     image: corda/community:4.9.1-zulu-openjdk8
     container_name: partya
+    user: root
     ports:
       - "10004:10003"
     volumes:
@@ -36,6 +38,7 @@ services:
   partyb:
     image: corda/community:4.9.1-zulu-openjdk8
     container_name: partyb
+    user: root
     ports:
       - "10005:10003"
     volumes:
@@ -52,6 +55,7 @@ services:
   partyc:
     image: corda/community:4.9.1-zulu-openjdk8
     container_name: partyc
+    user: root
     ports:
       - "10006:10003"
     volumes:
